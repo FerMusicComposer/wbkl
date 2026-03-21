@@ -36,6 +36,11 @@ export default defineConfig(
 				parser: ts.parser,
 				svelteConfig
 			}
+		},
+
+		rules: {
+			// Disabled until routes are fully implemented
+			'svelte/no-navigation-without-resolve': 'off'
 		}
 	}
 );
