@@ -32,7 +32,7 @@
 			'bg-transparent border-2 border-budo-red-500 text-budo-red-500 hover:bg-budo-red-500 hover:text-white focus:ring-budo-red-500 active:bg-budo-red-600',
 		ghost:
 			'bg-transparent text-midnight-800 hover:bg-slate-100 focus:ring-slate-400 active:bg-slate-200',
-		gold: 'bg-gold-500 text-midnight-900 hover:bg-gold-600 focus:ring-gold-500 active:bg-gold-700'
+		gold: 'bg-gold-500 text-midnight-900 hover:bg-gold-300 focus:ring-gold-300 active:bg-gold-400'
 	};
 
 	const sizeClasses: Record<ButtonSize, string> = {

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/Button.svelte';
 	import { Menu, X } from 'lucide-svelte';
 
 	const navLinks = [
@@ -48,8 +47,6 @@
 
 			<!-- Right Section: CTA + Mobile Toggle -->
 			<div class="flex items-center gap-4">
-				<Button variant="outline" size="sm" class="hidden md:inline-flex">Encuentra un Dojo</Button>
-
 				<button
 					onclick={toggleMenu}
 					class="text-midnight hover:text-budo-red focus:ring-budo-red rounded-lg p-2 transition-colors duration-200 focus:ring-2 focus:outline-none md:hidden"
@@ -79,9 +76,6 @@
 						{link.name}
 					</a>
 				{/each}
-			</div>
-			<div class="px-4 pb-4">
-				<Button variant="outline" size="md" class="w-full">Encuentra un Dojo</Button>
 			</div>
 		</div>
 	{/if}
