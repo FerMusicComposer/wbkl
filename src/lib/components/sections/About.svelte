@@ -44,7 +44,7 @@
 					perseverancia y espíritu indomable. A través de campeonatos, seminarios y programas de
 					certificación, buscamos elevar el estándar del Karate a nivel mundial.
 				</p>
-				<Button variant="primary" size="lg">Conocer más</Button>
+				<Button variant="primary" size="lg" href="/about">Conocer más</Button>
 			</div>
 
 			<!-- Right Column - Values Grid -->

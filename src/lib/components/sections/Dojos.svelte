@@ -9,7 +9,7 @@
 	];
 </script>
 
-<section class="bg-midnight-900 relative overflow-hidden py-16 sm:py-20">
+<section class="bg-midnight-700 relative overflow-hidden py-16 sm:py-20">
 	<div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
 			<!-- Left Column -->

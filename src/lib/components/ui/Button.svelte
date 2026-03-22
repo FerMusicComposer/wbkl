@@ -5,11 +5,12 @@
 	type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'gold';
 	type ButtonSize = 'sm' | 'md' | 'lg';
 
-	interface Props extends HTMLButtonAttributes {
+	interface Props {
 		variant?: ButtonVariant;
 		size?: ButtonSize;
 		children: Snippet;
 		class?: string;
+		href?: string;
 	}
 
 	let {
@@ -17,6 +18,7 @@
 		size = 'md',
 		children,
 		class: className = '',
+		href,
 		...restProps
 	}: Props = $props();
 
@@ -46,6 +48,12 @@
 	);
 </script>
 
-<button class={classes} {...restProps}>
-	{@render children()}
-</button>
+{#if href}
+	<a class={classes} {href} {...restProps}>
+		{@render children()}
+	</a>
+{:else}
+	<button class={classes} {...restProps as HTMLButtonAttributes}>
+		{@render children()}
+	</button>
+{/if}
