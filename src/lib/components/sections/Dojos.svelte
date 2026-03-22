@@ -3,9 +3,9 @@
 	import Button from '$lib/components/ui/Button.svelte';
 
 	const stats = [
-		{ value: '80+', label: 'Países', icon: Globe },
-		{ value: '500+', label: 'Dojos', icon: Building },
-		{ value: '50,000+', label: 'Miembros', icon: Users }
+		{ value: '5', label: 'Países', icon: Globe },
+		{ value: '17', label: 'Dojos', icon: Building },
+		{ value: '500+', label: 'Miembros', icon: Users }
 	];
 </script>
 
@@ -34,7 +34,7 @@
 					{/each}
 				</div>
 
-				<Button variant="gold" size="lg">
+				<Button variant="gold" size="lg" href="/branches">
 					<MapPin class="mr-2 h-5 w-5" />
 					Buscar Dojo
 				</Button>
