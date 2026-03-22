@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
-	type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+	type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'gold';
 	type ButtonSize = 'sm' | 'md' | 'lg';
 
 	interface Props extends HTMLButtonAttributes {
@@ -21,14 +21,18 @@
 	}: Props = $props();
 
 	const baseClasses =
-		'inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-budo-red focus:ring-offset-2';
+		'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
 	const variantClasses: Record<ButtonVariant, string> = {
-		primary: 'bg-budo-red text-white hover:bg-red-700',
-		secondary: 'bg-midnight text-white hover:bg-gray-800',
+		primary:
+			'bg-budo-red-600 text-white hover:bg-budo-red-400 hover:text-dogi-100 focus:ring-budo-red-500 active:bg-budo-red-700',
+		secondary:
+			'bg-midnight-300 text-white hover:bg-midnight-700 focus:ring-midnight-800 active:bg-midnight-900',
 		outline:
-			'bg-transparent border-2 border-budo-red text-budo-red hover:bg-budo-red hover:text-white',
-		ghost: 'bg-transparent text-midnight hover:bg-slate-light'
+			'bg-transparent border-2 border-budo-red-500 text-budo-red-500 hover:bg-budo-red-500 hover:text-white focus:ring-budo-red-500 active:bg-budo-red-600',
+		ghost:
+			'bg-transparent text-midnight-800 hover:bg-slate-100 focus:ring-slate-400 active:bg-slate-200',
+		gold: 'bg-gold-500 text-midnight-900 hover:bg-gold-600 focus:ring-gold-500 active:bg-gold-700'
 	};
 
 	const sizeClasses: Record<ButtonSize, string> = {
