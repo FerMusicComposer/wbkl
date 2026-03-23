@@ -3,10 +3,12 @@
 	import { getEvent } from '$lib/data/content';
 	import { Calendar, MapPin, Clock, Users, ArrowLeft } from 'lucide-svelte';
 	import Button from '$lib/components/ui/Button.svelte';
+	import EventRegistrationModal from '$lib/components/ui/EventRegistrationModal.svelte';
 
-	// Get event from slug
-	$: slug = $page.params.slug ?? '';
-	$: event = slug ? getEvent(slug) : undefined;
+	let slug = $derived($page.params.slug ?? '');
+	let event = $derived(slug ? getEvent(slug) : undefined);
+
+	let isModalOpen = $state(false);
 
 	function getTypeLabel(type: string): string {
 		switch (type) {
@@ -32,6 +34,14 @@
 			default:
 				return 'bg-budo-red-500 text-white';
 		}
+	}
+
+	function openModal() {
+		isModalOpen = true;
+	}
+
+	function closeModal() {
+		isModalOpen = false;
 	}
 </script>
 
@@ -160,7 +170,9 @@
 						</div>
 
 						<div class="mt-6 space-y-3">
-							<Button variant="primary" size="lg" class="w-full">Inscribirse</Button>
+							<Button variant="primary" size="lg" class="w-full" onclick={openModal}>
+								Inscribirse
+							</Button>
 							<Button variant="outline" size="lg" class="w-full">Compartir Evento</Button>
 						</div>
 					</div>
@@ -168,6 +180,8 @@
 			</div>
 		</div>
 	</section>
+
+	<EventRegistrationModal open={isModalOpen} onClose={closeModal} {event} />
 {:else}
 	<!-- Not Found -->
 	<section class="bg-dogi py-16 sm:py-20">

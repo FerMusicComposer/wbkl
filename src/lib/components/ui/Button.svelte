@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'gold';
 	type ButtonSize = 'sm' | 'md' | 'lg';
@@ -11,6 +10,9 @@
 		children: Snippet;
 		class?: string;
 		href?: string;
+		onclick?: () => void;
+		disabled?: boolean;
+		type?: 'button' | 'submit' | 'reset';
 	}
 
 	let {
@@ -19,7 +21,9 @@
 		children,
 		class: className = '',
 		href,
-		...restProps
+		onclick,
+		disabled,
+		type = 'button'
 	}: Props = $props();
 
 	const baseClasses =
@@ -49,11 +53,11 @@
 </script>
 
 {#if href}
-	<a class={classes} {href} {...restProps}>
+	<a class={classes} {href}>
 		{@render children()}
 	</a>
 {:else}
-	<button class={classes} {...restProps as HTMLButtonAttributes}>
+	<button class={classes} {onclick} {disabled} {type}>
 		{@render children()}
 	</button>
 {/if}

@@ -3,15 +3,7 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import Tabs from '$lib/components/ui/Tabs.svelte';
 	import { Calendar, MapPin, ArrowRight } from 'lucide-svelte';
-
-	interface Event {
-		id: string;
-		title: string;
-		date: string;
-		location: string;
-		type: 'championship' | 'clinic' | 'seminar';
-		featured?: boolean;
-	}
+	import { events } from '$lib/data/content';
 
 	const tabs = [
 		{ id: 'upcoming', label: 'Próximos' },
@@ -19,78 +11,14 @@
 		{ id: 'clinics', label: 'Clínicas' }
 	];
 
-	const events: Record<string, Event[]> = {
-		upcoming: [
-			{
-				id: 'world-championship-2025',
-				title: 'Campeonato Mundial de Kyokushin WBKL 2025',
-				date: '15 - 20 Julio, 2025',
-				location: 'Tokyo, Japón',
-				type: 'championship',
-				featured: true
-			},
-			{
-				id: 'european-cup-2025',
-				title: 'Copa Europea WBKL Madrid 2025',
-				date: '8 - 10 Marzo, 2025',
-				location: 'Madrid, España',
-				type: 'championship'
-			},
-			{
-				id: 'seminar-osaka',
-				title: 'Seminario con Kancho - Osaka',
-				date: '5 - 7 Abril, 2025',
-				location: 'Osaka, Japón',
-				type: 'seminar'
-			}
-		],
-		championships: [
-			{
-				id: 'world-championship-2025',
-				title: 'Campeonato Mundial de Kyokushin WBKL 2025',
-				date: '15 - 20 Julio, 2025',
-				location: 'Tokyo, Japón',
-				type: 'championship',
-				featured: true
-			},
-			{
-				id: 'european-cup-2025',
-				title: 'Copa Europea WBKL Madrid 2025',
-				date: '8 - 10 Marzo, 2025',
-				location: 'Madrid, España',
-				type: 'championship'
-			},
-			{
-				id: 'pan-american-2025',
-				title: 'Campeonato Panamericano WBKL 2025',
-				date: '12 - 14 Septiembre, 2025',
-				location: 'São Paulo, Brasil',
-				type: 'championship'
-			}
-		],
-		clinics: [
-			{
-				id: 'seminar-osaka',
-				title: 'Seminario con Kancho - Osaka',
-				date: '5 - 7 Abril, 2025',
-				location: 'Osaka, Japón',
-				type: 'seminar'
-			},
-			{
-				id: 'instructor-certification',
-				title: 'Certificación de Instructores Nivel 1',
-				date: '20 - 22 Marzo, 2025',
-				location: 'Barcelona, España',
-				type: 'clinic'
-			},
-			{
-				id: 'kata-masterclass',
-				title: 'Masterclass de Kata Tradicional',
-				date: '1 - 2 Junio, 2025',
-				location: 'Ciudad de México, México',
-				type: 'clinic'
-			}
-		]
+	const upcomingEvents = events;
+	const championshipEvents = events.filter((e) => e.eventType === 'championship');
+	const clinicEvents = events.filter((e) => e.eventType === 'clinic' || e.eventType === 'seminar');
+
+	const eventsByTab: Record<string, typeof events> = {
+		upcoming: upcomingEvents,
+		championships: championshipEvents,
+		clinics: clinicEvents
 	};
 
 	let activeTab = $state('upcoming');
@@ -99,7 +27,7 @@
 		activeTab = tabId;
 	}
 
-	function getTypeBadge(type: Event['type']): {
+	function getTypeBadge(type: string): {
 		label: string;
 		variant: 'default' | 'secondary' | 'outline';
 	} {
@@ -110,6 +38,8 @@
 				return { label: 'Clínica', variant: 'secondary' };
 			case 'seminar':
 				return { label: 'Seminario', variant: 'secondary' };
+			default:
+				return { label: 'Evento', variant: 'default' };
 		}
 	}
 
@@ -174,9 +104,9 @@
 			{#snippet children(activeTab)}
 				<!-- Event Cards -->
 				<div class="space-y-4">
-					{#each events[activeTab] as event (event.id)}
+					{#each eventsByTab[activeTab] as event (event.slug)}
 						<a
-							href="/events/{event.id}"
+							href="/events/{event.slug}"
 							class="group hover:border-budo-red-200 flex items-center gap-6 rounded-xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:shadow-lg"
 						>
 							<!-- Date Badge -->
@@ -190,8 +120,8 @@
 							<!-- Event Info -->
 							<div class="min-w-0 flex-1">
 								<div class="mb-2 flex flex-wrap items-center gap-2">
-									<Badge variant={getTypeBadge(event.type).variant}>
-										{getTypeBadge(event.type).label}
+									<Badge variant={getTypeBadge(event.eventType).variant}>
+										{getTypeBadge(event.eventType).label}
 									</Badge>
 									{#if event.featured}
 										<Badge variant="outline">Destacado</Badge>
@@ -230,7 +160,7 @@
 
 		<!-- Footer -->
 		<div class="mt-8 text-center">
-			<Button variant="outline" size="lg">Ver Todos los Eventos</Button>
+			<Button variant="outline" size="lg" href="/events">Ver Todos los Eventos</Button>
 		</div>
 	</div>
 </section>

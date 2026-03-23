@@ -1,50 +1,8 @@
 <script lang="ts">
 	import { Calendar } from 'lucide-svelte';
+	import { news } from '$lib/data/content';
 
-	interface NewsArticle {
-		id: string;
-		title: string;
-		excerpt: string;
-		date: string;
-		category: 'news' | 'event' | 'result';
-		image: string;
-		imageAlt: string;
-	}
-
-	const articles: NewsArticle[] = [
-		{
-			id: 'world-championship-results',
-			title: 'Resultados del Campeonato Mundial 2024',
-			excerpt:
-				'Los mejores atletas de Kyokushin de todo el mundo se reunieron para competir en el campeonato más prestigioso del año.',
-			date: '15 Diciembre, 2024',
-			category: 'result',
-			image: '/images/tournament1.jpg',
-			imageAlt: 'Competidores en el tatami durante el campeonato mundial'
-		},
-		{
-			id: 'new-dojo-certification',
-			title: 'Nuevo Programa de Certificación para Dojos',
-			excerpt:
-				'La WBKL lanza un programa integral de certificación que garantiza los más altos estándares de enseñanza del Kyokushin.',
-			date: '10 Diciembre, 2024',
-			category: 'news',
-			image: '/images/tournament2.jpg',
-			imageAlt: 'Instructores durante una sesión de certificación'
-		},
-		{
-			id: 'seminar-announcement',
-			title: 'Seminario Internacional de Kata en Barcelona',
-			excerpt:
-				'Anunciamos el próximo seminario internacional de Kata que se llevará a cabo en Barcelona el próximo mes de marzo.',
-			date: '5 Diciembre, 2024',
-			category: 'event',
-			image: '/images/fighter1.png',
-			imageAlt: 'Practicantes de kata durante un seminario'
-		}
-	];
-
-	function getCategoryLabel(category: NewsArticle['category']): string {
+	function getCategoryLabel(category: string): string {
 		switch (category) {
 			case 'news':
 				return 'Noticia';
@@ -52,10 +10,12 @@
 				return 'Evento';
 			case 'result':
 				return 'Resultado';
+			default:
+				return 'Noticia';
 		}
 	}
 
-	function getCategoryColor(category: NewsArticle['category']): string {
+	function getCategoryColor(category: string): string {
 		switch (category) {
 			case 'news':
 				return 'bg-budo-red-500 text-white';
@@ -63,6 +23,8 @@
 				return 'bg-gold-500 text-midnight-900';
 			case 'result':
 				return 'bg-midnight-800 text-white';
+			default:
+				return 'bg-budo-red-500 text-white';
 		}
 	}
 </script>
@@ -82,18 +44,24 @@
 
 		<!-- News Grid -->
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-			{#each articles as article (article.id)}
+			{#each news as article (article.slug)}
 				<a
-					href="/news/{article.id}"
+					href="/news/{article.slug}"
 					class="group overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-200 hover:border-slate-300 hover:shadow-lg"
 				>
 					<!-- Image -->
 					<div class="relative aspect-video overflow-hidden">
-						<img
-							src={article.image}
-							alt={article.imageAlt}
-							class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-						/>
+						{#if article.image}
+							<img
+								src={article.image}
+								alt={article.title}
+								class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+							/>
+						{:else}
+							<div class="flex h-full w-full items-center justify-center bg-slate-100">
+								<Calendar class="h-12 w-12 text-slate-300" />
+							</div>
+						{/if}
 						<!-- Category Badge -->
 						<span
 							class="absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-medium {getCategoryColor(
