@@ -35,7 +35,7 @@
 				</div>
 				<p class="mb-6 text-sm text-gray-400">
 					Fortaleciendo el cuerpo, la mente y el espíritu a través del camino del Kyokushin. Unidos
-					por el espíritu budo en más de 80 países.
+					por el espíritu budo en 5 paises.
 				</p>
 				<div class="flex gap-4">
 					{#each socialLinks as social (social.name)}
