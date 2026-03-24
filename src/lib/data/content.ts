@@ -540,3 +540,123 @@ export function getNewsArticle(slug: string): NewsArticle | undefined {
 export function getEvent(slug: string): Event | undefined {
 	return events.find((event) => event.slug === slug);
 }
+
+export interface Document {
+	id: string;
+	title: string;
+	description: string;
+	category: 'rules' | 'techniques' | 'certifications' | 'administrative';
+	fileUrl?: string;
+	fileSize?: string;
+	fileType?: string;
+}
+
+export const documents: Document[] = [
+	{
+		id: 'org-rules',
+		title: 'Reglamento de la Organización WBKL',
+		description:
+			'Documento oficial con las reglas y estatutos de la World Budo Karate League. Incluye estructura organizativa, derechos y obligaciones de los miembros.',
+		category: 'rules',
+		fileSize: '2.4 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'tournament-rules',
+		title: 'Reglamento de Competencia',
+		description:
+			'Reglamento oficial para competencias de Kyokushin. Incluye categorías, sistema de puntuación, faltas y sanciones.',
+		category: 'rules',
+		fileSize: '1.8 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'kihon-syllabus',
+		title: 'Programa de Kihon',
+		description:
+			'Guía completa de técnicas básicas (kihon) requeridas para cada grado. Incluye katas básicos, técnicas de puño y patada.',
+		category: 'techniques',
+		fileSize: '5.2 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'kata-guide',
+		title: 'Guía de Katas',
+		description:
+			'Listado oficial de katas del curriculum de Kyokushin con descripciones detalladas, diagramas y aplicaciones.',
+		category: 'techniques',
+		fileSize: '12.5 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'instructor-certification',
+		title: 'Manual de Certificación de Instructores',
+		description:
+			'Requisitos y procedimientos para obtener la certificación oficial de instructor WBKL. Niveles 1, 2 y 3.',
+		category: 'certifications',
+		fileSize: '3.1 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'dojo-certification',
+		title: 'Certificación de Dojos Afiliados',
+		description:
+			'Proceso de certificación para dojos afiliados. Requisitos de instalaciones, equipamiento y personal.',
+		category: 'certifications',
+		fileSize: '1.5 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'belt-requirements',
+		title: 'Requisitos de Grado',
+		description:
+			'Programa oficial de requisitos para cada cinturón, desde blanco hasta negro. Técnicas, katas y requisitos físicos.',
+		category: 'techniques',
+		fileSize: '4.3 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'competition-forms',
+		title: 'Formularios de Competencia',
+		description:
+			'Formularios oficiales para inscripción en competencias, autorización médica y registro de atletas.',
+		category: 'administrative',
+		fileSize: '0.8 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'membership-form',
+		title: 'Formulario de Afiliación',
+		description: 'Formulario de inscripción para nuevos miembros y dojos afiliados a la WBKL.',
+		category: 'administrative',
+		fileSize: '0.5 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'grading-form',
+		title: 'Formulario de Examen de Grado',
+		description:
+			'Formulario oficial para solicitudes de examen de grado. Incluye requisitos y procedimientos.',
+		category: 'administrative',
+		fileSize: '0.6 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'judge-certification',
+		title: 'Certificación de Árbitros y Jueces',
+		description:
+			'Manual y requisitos para la certificación de árbitros y jueces oficiales de la WBKL.',
+		category: 'certifications',
+		fileSize: '2.7 MB',
+		fileType: 'PDF'
+	},
+	{
+		id: 'referee-guide',
+		title: 'Guía de Arbitraje',
+		description:
+			'Guía completa de señales, procedimientos y criterios de juzgaje para competencias oficiales.',
+		category: 'rules',
+		fileSize: '1.9 MB',
+		fileType: 'PDF'
+	}
+];
