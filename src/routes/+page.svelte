@@ -6,6 +6,10 @@
 	import Dojos from '$lib/components/sections/Dojos.svelte';
 </script>
 
+<svelte:head>
+	<title>World Budo Karate League</title>
+</svelte:head>
+
 <Hero />
 <Events />
 <News />

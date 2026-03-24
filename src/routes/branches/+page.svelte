@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { ArrowLeft, MapPin } from 'lucide-svelte';
+	import { ArrowLeft, MapPin, User } from 'lucide-svelte';
+	import { members } from '$lib/data/content';
 
 	let selectedCountry = $state<string | null>(null);
 
@@ -315,6 +316,34 @@
 						{/each}
 					</div>
 				</div>
+
+				<!-- Members Section -->
+				{#if members[selectedCountry] && members[selectedCountry].length > 0}
+					<div class="mt-12">
+						<h3 class="text-midnight-900 mb-6 text-2xl font-bold">Miembros Afiliados</h3>
+						<p class="mb-6 text-slate-600">
+							Miembros de la WBKL en {getCountryName(selectedCountry)}.
+						</p>
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{#each members[selectedCountry] as member (member.id)}
+								<div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-4">
+									<div
+										class="bg-budo-red-50 flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+									>
+										<User class="text-budo-red-500 h-5 w-5" />
+									</div>
+									<div>
+										<h4 class="text-midnight-900 font-semibold">{member.name}</h4>
+										{#if member.title}
+											<p class="text-budo-red-500 text-sm font-medium">{member.title}</p>
+										{/if}
+										<p class="text-sm text-slate-600">{member.dan}</p>
+									</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				{/if}
 			{/if}
 		</div>
 	</div>

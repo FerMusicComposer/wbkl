@@ -25,6 +25,204 @@ export interface Event {
 	};
 }
 
+export interface Director {
+	id: string;
+	name: string;
+	title: string;
+	role: string;
+	country?: string;
+	countryFlag?: string;
+	image?: string;
+}
+
+export interface Member {
+	id: string;
+	name: string;
+	title: string;
+	dan: string;
+	country: string;
+}
+
+export const members: Record<string, Member[]> = {
+	brazil: [
+		{
+			id: 'marilucio-alvez',
+			name: 'Shihan Marilucio Alvez de Andrade',
+			title: 'Shihan',
+			dan: '6to. Dan',
+			country: 'brazil'
+		},
+		{
+			id: 'walter-bravin',
+			name: 'Shihan Walter Bravin Dos Santos',
+			title: 'Shihan',
+			dan: '6to. Dan',
+			country: 'brazil'
+		},
+		{
+			id: 'cristiano-goncalves',
+			name: 'Sensei Cristiano Goncalves Dias',
+			title: 'Sensei',
+			dan: '2do. Dan',
+			country: 'brazil'
+		},
+		{
+			id: 'ronaldo-pacheco',
+			name: 'Shihan Ronaldo Rodrígues Pacheco',
+			title: 'Shihan',
+			dan: '7mo. Dan',
+			country: 'brazil'
+		},
+		{
+			id: 'charles-silva',
+			name: 'Charles da Silva',
+			title: '',
+			dan: '1er. Dan',
+			country: 'brazil'
+		}
+	],
+	chile: [
+		{
+			id: 'alejandro-reyes',
+			name: 'Shihan Alejandro Mauricio Reyes Orellana',
+			title: 'Shihan',
+			dan: '7mo. Dan',
+			country: 'chile'
+		},
+		{
+			id: 'sergio-reyes',
+			name: 'Shihan Sérgio Marcelo Reyes Orellana',
+			title: 'Shihan',
+			dan: '6to. Dan',
+			country: 'chile'
+		},
+		{
+			id: 'cristian-solan',
+			name: 'Sensei Cristian Andrés Solan Contreras',
+			title: 'Sensei',
+			dan: '3er. Dan',
+			country: 'chile'
+		}
+	],
+	spain: [
+		{
+			id: 'javier-lopez',
+			name: 'Sensei Javier López Romero',
+			title: 'Sensei',
+			dan: '4to. Dan',
+			country: 'spain'
+		},
+		{
+			id: 'josep-carbonell',
+			name: 'Shidoin Josep Carbonell',
+			title: 'Shidoin',
+			dan: '1er. Dan',
+			country: 'spain'
+		},
+		{
+			id: 'alifran-inojosa',
+			name: 'Shidoin Alifran Inojosa Rodríguez',
+			title: 'Shidoin',
+			dan: '1er. Dan',
+			country: 'spain'
+		},
+		{
+			id: 'javier-garcia',
+			name: 'Shidoin Javier García del Pozo',
+			title: 'Shidoin',
+			dan: '1er. Dan',
+			country: 'spain'
+		},
+		{
+			id: 'giuseppe-ferrari',
+			name: 'Giuseppe Ferrari Olguin',
+			title: '',
+			dan: '1er. Dan',
+			country: 'spain'
+		}
+	],
+	japan: [
+		{
+			id: 'rintaro-kawahara',
+			name: 'Shihan Rintaro Kawahara',
+			title: 'Shihan',
+			dan: '3er. Dan',
+			country: 'japan'
+		}
+	],
+	uruguay: [
+		{
+			id: 'jorge-martinez',
+			name: 'Sensei Jorge Martínez',
+			title: 'Sensei',
+			dan: '3er. Dan',
+			country: 'uruguay'
+		},
+		{
+			id: 'jose-iguini',
+			name: 'Sensei José Iguini',
+			title: 'Sensei',
+			dan: '3er. Dan',
+			country: 'uruguay'
+		}
+	]
+};
+
+export const directors: Director[] = [
+	{
+		id: 'soke-masahiro-motomura',
+		name: 'Soke Masahiro Motomura',
+		title: 'Soke',
+		role: 'Director Mundial WBKL'
+	},
+	{
+		id: 'dai-shihan-william-boss',
+		name: 'Dai Shihan William Boss',
+		title: 'Dai Shihan',
+		role: 'Director Latam/Europa Kyokushin WBKL'
+	},
+	{
+		id: 'shihan-marilucio-alvez',
+		name: 'Shihan Marilucio Alvez',
+		title: 'Shihan',
+		role: 'Director Kyokushin WBKL Brasil',
+		country: 'Brasil',
+		countryFlag: '🇧🇷'
+	},
+	{
+		id: 'shihan-alejandro-reyes',
+		name: 'Shihan Alejandro Reyes Orellana',
+		title: 'Shihan',
+		role: 'Director Kyokushin WBKL Chile',
+		country: 'Chile',
+		countryFlag: '🇨🇱'
+	},
+	{
+		id: 'shihan-rintaro-kawahara',
+		name: 'Shihan Rintaro Kawahara',
+		title: 'Shihan',
+		role: 'Director Kyokushin WBKL Japón',
+		country: 'Japón',
+		countryFlag: '🇯🇵'
+	},
+	{
+		id: 'shidoin-josep-carbonell',
+		name: 'Shidoin Josep Carbonell García',
+		title: 'Shidoin',
+		role: 'Director Kyokushin WBKL España',
+		country: 'España',
+		countryFlag: '🇪🇸'
+	},
+	{
+		id: 'sensei-jorge-martinez',
+		name: 'Sensei Jorge Martínez',
+		title: 'Sensei',
+		role: 'Director Kyokushin WBKL Uruguay',
+		country: 'Uruguay',
+		countryFlag: '🇺🇾'
+	}
+];
+
 export const news: NewsArticle[] = [
 	{
 		slug: 'world-championship-results-2024',

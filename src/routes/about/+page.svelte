@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Sparkles, Flame, Shield, Star, Users } from 'lucide-svelte';
+	import { directors } from '$lib/data/content';
 
 	const kyokushinValues = [
 		{
@@ -54,39 +55,6 @@
 			title: 'Campeonato Mundial',
 			description:
 				'La WBKL organiza el Campeonato Mundial de Kyokushin más grande de la historia, con participantes de más de 80 países.'
-		}
-	];
-
-	const leadership = [
-		{
-			name: 'Nombre del Presidente',
-			role: 'Presidente',
-			image: null
-		},
-		{
-			name: 'Nombre del Vicepresidente',
-			role: 'Vicepresidente',
-			image: null
-		},
-		{
-			name: 'Nombre del Director Técnico',
-			role: 'Director Técnico',
-			image: null
-		},
-		{
-			name: 'Nombre del Secretario',
-			role: 'Secretario General',
-			image: null
-		},
-		{
-			name: 'Nombre del Tesorero',
-			role: 'Tesorero',
-			image: null
-		},
-		{
-			name: 'Nombre del Director',
-			role: 'Director de Comunicación',
-			image: null
 		}
 	];
 </script>
@@ -242,26 +210,30 @@
 				El equipo que guía a la WBKL hacia el futuro, manteniendo el legado del Kyokushin.
 			</p>
 		</div>
-		<div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-			{#each leadership as person (person.name)}
+		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+			{#each directors as person (person.id)}
 				<div
-					class="hover:border-budo-red-200 rounded-xl border border-slate-200 bg-white p-4 text-center transition-all duration-200 hover:shadow-lg"
+					class="hover:border-budo-red-200 rounded-xl border border-slate-200 bg-white p-5 text-center transition-all duration-200 hover:shadow-lg"
 				>
 					{#if person.image}
 						<img
 							src={person.image}
 							alt={person.name}
-							class="mx-auto mb-3 h-20 w-20 rounded-full object-cover"
+							class="mx-auto mb-3 h-24 w-24 rounded-full object-cover"
 						/>
 					{:else}
 						<div
-							class="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-slate-200"
+							class="mx-auto mb-3 flex h-24 w-24 items-center justify-center rounded-full bg-slate-200"
 						>
-							<Users class="h-10 w-10 text-slate-400" />
+							<Users class="h-12 w-12 text-slate-400" />
 						</div>
 					{/if}
-					<h3 class="text-midnight-900 text-sm font-semibold">{person.name}</h3>
-					<p class="text-xs text-slate-500">{person.role}</p>
+					<h3 class="text-midnight-900 text-base font-semibold">{person.name}</h3>
+					<p class="text-budo-red-500 mt-1 text-xs font-medium">{person.title}</p>
+					<p class="text-sm text-slate-600">{person.role}</p>
+					{#if person.countryFlag}
+						<p class="mt-1 text-xs text-slate-500">{person.country} {person.countryFlag}</p>
+					{/if}
 				</div>
 			{/each}
 		</div>
