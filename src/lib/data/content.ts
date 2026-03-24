@@ -168,6 +168,127 @@ export const members: Record<string, Member[]> = {
 	]
 };
 
+export interface Program {
+	id: string;
+	slug: string;
+	title: string;
+	description: string;
+	descriptionExtended?: string;
+	category: 'kyokushin' | 'combat';
+	image?: string;
+	features: string[];
+	schedule?: string;
+	level?: string;
+	featured?: boolean;
+}
+
+export const programs: Program[] = [
+	{
+		id: 'kyokushin-adults',
+		slug: 'kyokushin-adults',
+		title: 'Kyokushin Adultos',
+		description:
+			'Entrenamiento tradicional de Karate Kyokushin para adultos. Desarrolla fuerza, disciplina y técnica.',
+		descriptionExtended:
+			'Nuestro programa de Kyokushin para adultos está diseñado para estudiantes de todos los niveles, desde principiantes hasta avanzados. El entrenamiento incluye kihon (técnicas básicas), kata (formas), kumite (combate) y acondicionamiento físico.',
+		category: 'kyokushin',
+		image: '/images/fighter1.png',
+		features: [
+			'Técnicas básicas y avanzadas',
+			'Kata tradicional',
+			'Kumite (combate)',
+			'Acondicionamiento físico',
+			'Filosofía budo',
+			'Entrenamiento de contacto pleno'
+		],
+		schedule: 'Lunes, Miércoles y Viernes - 19:00 a 21:00',
+		level: 'Todos los niveles',
+		featured: true
+	},
+	{
+		id: 'kyokushin-kids',
+		slug: 'kyokushin-kids',
+		title: 'Kyokushin Niños',
+		description:
+			'Programa especializado para niños que fomenta la disciplina, el respeto y la coordinación.',
+		descriptionExtended:
+			'El programa de Kyokushin para niños está diseñado para desarrollar la confianza, la disciplina y el respeto mientras aprenden técnicas de karate de manera divertida y segura. Adaptamos las técnicas para que sean apropiadas para cada edad.',
+		category: 'kyokushin',
+		image: '/images/tournament1.jpg',
+		features: [
+			'Desarrollo de disciplina',
+			'Mejora de coordinación',
+			'Técnicas adaptadas por edad',
+			'Valores del budo',
+			'Avance gradual de cinturones',
+			'Ambiente seguro y divertido'
+		],
+		schedule: 'Martes y Jueves - 17:00 a 18:30',
+		level: '4 a 14 años'
+	},
+	{
+		id: 'kickboxing',
+		slug: 'kickboxing',
+		title: 'Kickboxing',
+		description:
+			'Arte marcial de contacto que combina técnicas de boxeo y karate. Ideal para fitness y autodefensa.',
+		descriptionExtended:
+			'Nuestras clases de kickboxing combinan técnicas de boxeo occidental con patadas del karate y muay thai. Es ideal para mejorar tu condición física, aprender autodefensa y liberar estrés.',
+		category: 'combat',
+		image: '/images/tournament2.jpg',
+		features: [
+			'Técnicas de puño y patada',
+			'Acondicionamiento cardiovascular',
+			'Trabajo con saco',
+			'Sparring controlado',
+			'Acondicionamiento funcional',
+			'Técnicas de defensa personal'
+		],
+		schedule: 'Lunes, Miércoles y Viernes - 18:00 a 19:30',
+		level: 'Principiantes y avanzados'
+	},
+	{
+		id: 'boxing',
+		slug: 'boxing',
+		title: 'Boxeo',
+		description:
+			'El arte de la boxeo profesional. Aprende técnicas de puño, movimiento y estrategia.',
+		descriptionExtended:
+			'Las clases de boxeo enseñan las técnicas fundamentales del "noble arte": jabs, cruces, ganchos, uppercuts, movimiento de pies, defensa y estrategia.perfecto para mejorar tu fitness y aprender habilidades de autodefensa.',
+		category: 'combat',
+		features: [
+			'Técnicas de puño',
+			'Movimiento y footwork',
+			'Defensa y bloqueos',
+			'Trabajo con saco y speed bag',
+			'Acondicionamiento específico',
+			'Sparring técnico'
+		],
+		schedule: 'Martes y Jueves - 19:00 a 20:30',
+		level: 'Todos los niveles'
+	},
+	{
+		id: 'krav-maga',
+		slug: 'krav-maga',
+		title: 'Krav Maga',
+		description:
+			'Sistema de autodefensa efectivo y práctico. Aprende a defenderte en situaciones reales.',
+		descriptionExtended:
+			'El Krav Maga es un sistema de autodefensa desarrollado para el ejército israelí. Se enfoca en técnicas prácticas y efectivas para situaciones reales de combate y autodefensa. Aprenderás a defender contra agresiones, armas y múltiples atacantes.',
+		category: 'combat',
+		features: [
+			'Técnicas de autodefensa',
+			'Defensa contra armas',
+			'Escapes y contraataques',
+			'Técnicas de ground fighting',
+			'Simulaciones realistas',
+			'Preparación mental'
+		],
+		schedule: 'Sábados - 10:00 a 12:00',
+		level: 'Todos los niveles'
+	}
+];
+
 export const directors: Director[] = [
 	{
 		id: 'soke-masahiro-motomura',

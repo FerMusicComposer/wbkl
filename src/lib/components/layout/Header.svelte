@@ -5,7 +5,7 @@
 		{ name: 'Inicio', href: '/' },
 		{ name: 'Sobre WBKL', href: '/about' },
 		{ name: 'Dojos', href: '/branches' },
-		{ name: 'Noticias', href: '/news' },
+		{ name: 'Noticias y Eventos', href: '/news' },
 		{ name: 'Programas', href: '/programs' },
 		{ name: 'Documentos', href: '/documents' }
 	];
