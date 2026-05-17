@@ -2,15 +2,16 @@
 	import Modal from './Modal.svelte';
 	import Button from './Button.svelte';
 	import { Calendar, MapPin, User, Mail, Phone, Building, Hash } from 'lucide-svelte';
-	import type { Event as EventType } from '$lib/data/content';
+	import type { Event } from '$lib/api/types';
 
 	interface Props {
 		open: boolean;
 		onClose: () => void;
-		event: EventType | undefined;
+		event: Event | undefined;
+		lang?: string;
 	}
 
-	let { open, onClose, event }: Props = $props();
+	let { open, onClose, event, lang = 'es' }: Props = $props();
 
 	let formData = $state({
 		fullName: '',
@@ -25,6 +26,18 @@
 	let submitted = $state(false);
 
 	function getTypeLabel(type: string): string {
+		if (lang === 'en') {
+			switch (type) {
+				case 'championship':
+					return 'Championship';
+				case 'clinic':
+					return 'Clinic';
+				case 'seminar':
+					return 'Seminar';
+				default:
+					return 'Event';
+			}
+		}
 		switch (type) {
 			case 'championship':
 				return 'Campeonato';
@@ -48,6 +61,26 @@
 			default:
 				return 'bg-budo-red-500 text-white';
 		}
+	}
+
+	function formatDate(dateStr: string): string {
+		try {
+			const date = new Date(dateStr);
+			return date.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', {
+				day: 'numeric',
+				month: 'long',
+				year: 'numeric'
+			});
+		} catch {
+			return dateStr;
+		}
+	}
+
+	function getCategories(event: Event): string[] {
+		if (event.categories && Array.isArray(event.categories)) {
+			return event.categories as string[];
+		}
+		return [];
 	}
 
 	async function handleSubmit(e: SubmitEvent) {
@@ -94,12 +127,17 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="text-midnight-900 mb-2 text-xl font-semibold">¡Inscripción Recibida!</h3>
+				<h3 class="text-midnight-900 mb-2 text-xl font-semibold">
+					{lang === 'en' ? 'Registration Received!' : '¡Inscripción Recibida!'}
+				</h3>
 				<p class="mb-6 text-slate-600">
-					Hemos recibido tu solicitud de inscripción para <strong>{event.title}</strong>. Te
-					contactaremos pronto con más detalles.
+					{lang === 'en'
+						? `We have received your registration for ${event.name}. We will contact you soon with more details.`
+						: `Hemos recibido tu solicitud de inscripción para ${event.name}. Te contactaremos pronto con más detalles.`}
 				</p>
-				<Button variant="primary" onclick={handleClose}>Cerrar</Button>
+				<Button variant="primary" onclick={handleClose}>
+					{lang === 'en' ? 'Close' : 'Cerrar'}
+				</Button>
 			</div>
 		{:else}
 			<!-- Event Info Header -->
@@ -111,27 +149,31 @@
 				>
 					{getTypeLabel(event.eventType)}
 				</span>
-				<h2 class="text-midnight-900 mb-2 text-xl font-semibold">{event.title}</h2>
+				<h2 class="text-midnight-900 mb-2 text-xl font-semibold">{event.name}</h2>
 				<div class="flex flex-wrap gap-4 text-sm text-slate-600">
 					<div class="flex items-center gap-1.5">
 						<Calendar class="text-budo-red-500 h-4 w-4" />
-						<span>{event.date}</span>
+						<span>{formatDate(event.startDate)}</span>
 					</div>
-					<div class="flex items-center gap-1.5">
-						<MapPin class="text-budo-red-500 h-4 w-4" />
-						<span>{event.location}</span>
-					</div>
+					{#if event.location}
+						<div class="flex items-center gap-1.5">
+							<MapPin class="text-budo-red-500 h-4 w-4" />
+							<span>{event.location}</span>
+						</div>
+					{/if}
 				</div>
 			</div>
 
 			<!-- Registration Form -->
 			<form onsubmit={handleSubmit}>
-				<h3 class="text-midnight-900 mb-4 font-semibold">Datos del Participante</h3>
+				<h3 class="text-midnight-900 mb-4 font-semibold">
+					{lang === 'en' ? 'Participant Information' : 'Datos del Participante'}
+				</h3>
 
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<div>
 						<label for="fullName" class="mb-1.5 block text-sm font-medium text-slate-700">
-							Nombre Completo *
+							{lang === 'en' ? 'Full Name' : 'Nombre Completo'} *
 						</label>
 						<div class="relative">
 							<User class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -141,14 +183,14 @@
 								bind:value={formData.fullName}
 								required
 								class="focus:border-budo-red-500 focus:ring-budo-red-500 w-full rounded-lg border border-slate-300 py-2.5 pr-3 pl-10 text-sm focus:ring-1 focus:outline-none"
-								placeholder="Tu nombre completo"
+								placeholder={lang === 'en' ? 'Your full name' : 'Tu nombre completo'}
 							/>
 						</div>
 					</div>
 
 					<div>
 						<label for="email" class="mb-1.5 block text-sm font-medium text-slate-700">
-							Correo Electrónico *
+							{lang === 'en' ? 'Email' : 'Correo Electrónico'} *
 						</label>
 						<div class="relative">
 							<Mail class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -165,7 +207,7 @@
 
 					<div>
 						<label for="phone" class="mb-1.5 block text-sm font-medium text-slate-700">
-							Teléfono *
+							{lang === 'en' ? 'Phone' : 'Teléfono'} *
 						</label>
 						<div class="relative">
 							<Phone class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -182,7 +224,7 @@
 
 					<div>
 						<label for="dojo" class="mb-1.5 block text-sm font-medium text-slate-700">
-							Dojo / Organización *
+							{lang === 'en' ? 'Dojo / Organization' : 'Dojo / Organización'} *
 						</label>
 						<div class="relative">
 							<Building class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -192,14 +234,14 @@
 								bind:value={formData.dojo}
 								required
 								class="focus:border-budo-red-500 focus:ring-budo-red-500 w-full rounded-lg border border-slate-300 py-2.5 pr-3 pl-10 text-sm focus:ring-1 focus:outline-none"
-								placeholder="Nombre del dojo"
+								placeholder={lang === 'en' ? 'Dojo name' : 'Nombre del dojo'}
 							/>
 						</div>
 					</div>
 
 					<div>
 						<label for="belt" class="mb-1.5 block text-sm font-medium text-slate-700">
-							Grado / Cinturón *
+							{lang === 'en' ? 'Belt / Rank' : 'Grado / Cinturón'} *
 						</label>
 						<div class="relative">
 							<Hash class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -209,13 +251,14 @@
 								required
 								class="focus:border-budo-red-500 focus:ring-budo-red-500 w-full appearance-none rounded-lg border border-slate-300 py-2.5 pr-3 pl-10 text-sm focus:ring-1 focus:outline-none"
 							>
-								<option value="">Seleccionar</option>
-								<option value="white">Cinturón Blanco</option>
-								<option value="orange">Cinturón Naranja</option>
-								<option value="blue">Cinturón Azul</option>
-								<option value="yellow">Cinturón Amarillo</option>
-								<option value="green">Cinturón Verde</option>
-								<option value="brown">Cinturón Marrón</option>
+								<option value="">{lang === 'en' ? 'Select' : 'Seleccionar'}</option>
+								<option value="white">{lang === 'en' ? 'White Belt' : 'Cinturón Blanco'}</option>
+								<option value="orange">{lang === 'en' ? 'Orange Belt' : 'Cinturón Naranja'}</option>
+								<option value="blue">{lang === 'en' ? 'Blue Belt' : 'Cinturón Azul'}</option>
+								<option value="yellow">{lang === 'en' ? 'Yellow Belt' : 'Cinturón Amarillo'}</option
+								>
+								<option value="green">{lang === 'en' ? 'Green Belt' : 'Cinturón Verde'}</option>
+								<option value="brown">{lang === 'en' ? 'Brown Belt' : 'Cinturón Marrón'}</option>
 								<option value="shodan">Shodan (1er Dan)</option>
 								<option value="nidan">Nidan (2do Dan)</option>
 								<option value="sandan">Sandan (3er Dan)</option>
@@ -225,10 +268,10 @@
 						</div>
 					</div>
 
-					{#if event.eventType === 'championship'}
+					{#if event.eventType === 'championship' && getCategories(event).length > 0}
 						<div>
 							<label for="category" class="mb-1.5 block text-sm font-medium text-slate-700">
-								Categoría de Competencia *
+								{lang === 'en' ? 'Competition Category' : 'Categoría de Competencia'} *
 							</label>
 							<select
 								id="category"
@@ -236,8 +279,8 @@
 								required
 								class="focus:border-budo-red-500 focus:ring-budo-red-500 w-full appearance-none rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:ring-1 focus:outline-none"
 							>
-								<option value="">Seleccionar</option>
-								{#each event.details.categories as category, i (i)}
+								<option value="">{lang === 'en' ? 'Select' : 'Seleccionar'}</option>
+								{#each getCategories(event) as category, i (i)}
 									<option value={category}>{category}</option>
 								{/each}
 							</select>
@@ -246,9 +289,17 @@
 				</div>
 
 				<div class="mt-6 flex gap-3">
-					<Button variant="outline" onclick={handleClose} class="flex-1">Cancelar</Button>
+					<Button variant="outline" onclick={handleClose} class="flex-1">
+						{lang === 'en' ? 'Cancel' : 'Cancelar'}
+					</Button>
 					<Button variant="primary" class="flex-1" disabled={isSubmitting}>
-						{isSubmitting ? 'Enviando...' : 'Inscribirse'}
+						{isSubmitting
+							? lang === 'en'
+								? 'Submitting...'
+								: 'Enviando...'
+							: lang === 'en'
+								? 'Register'
+								: 'Inscribirse'}
 					</Button>
 				</div>
 			</form>

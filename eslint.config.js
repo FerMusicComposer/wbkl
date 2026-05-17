@@ -40,7 +40,10 @@ export default defineConfig(
 
 		rules: {
 			// Disabled until routes are fully implemented
-			'svelte/no-navigation-without-resolve': 'off'
+			'svelte/no-navigation-without-resolve': 'off',
+			// CMS rich text content requires {@html} — the content is sanitized
+			// by escaping child text before wrapping in HTML tags
+			'svelte/no-at-html-tags': 'off'
 		}
 	}
 );

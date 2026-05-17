@@ -1,29 +1,28 @@
 <script lang="ts">
 	import { Calendar, MapPin, ArrowRight } from 'lucide-svelte';
+	import { getMediaUrl } from '$lib/api/media';
+	import type { Event } from '$lib/api/types';
 
 	interface Props {
-		title: string;
-		description: string;
-		date: string;
-		location: string;
-		eventType: 'championship' | 'clinic' | 'seminar';
-		image?: string;
-		slug: string;
-		featured?: boolean;
+		event: Event;
+		lang?: string;
 	}
 
-	let {
-		title,
-		description,
-		date,
-		location,
-		eventType,
-		image,
-		slug,
-		featured = false
-	}: Props = $props();
+	let { event, lang = 'es' }: Props = $props();
 
-	function getTypeLabel(type: Props['eventType']): string {
+	function getTypeLabel(type: string): string {
+		if (lang === 'en') {
+			switch (type) {
+				case 'championship':
+					return 'Championship';
+				case 'clinic':
+					return 'Clinic';
+				case 'seminar':
+					return 'Seminar';
+				default:
+					return 'Event';
+			}
+		}
 		switch (type) {
 			case 'championship':
 				return 'Campeonato';
@@ -31,10 +30,12 @@
 				return 'Clínica';
 			case 'seminar':
 				return 'Seminario';
+			default:
+				return 'Evento';
 		}
 	}
 
-	function getTypeColor(type: Props['eventType']): string {
+	function getTypeColor(type: string): string {
 		switch (type) {
 			case 'championship':
 				return 'bg-budo-red-500 text-white';
@@ -42,21 +43,36 @@
 				return 'bg-gold-500 text-midnight-900';
 			case 'seminar':
 				return 'bg-midnight-800 text-white';
+			default:
+				return 'bg-budo-red-500 text-white';
+		}
+	}
+
+	function formatDate(dateStr: string): string {
+		try {
+			const date = new Date(dateStr);
+			return date.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', {
+				day: 'numeric',
+				month: 'short',
+				year: 'numeric'
+			});
+		} catch {
+			return dateStr;
 		}
 	}
 </script>
 
-<a href="/events/{slug}?from=events" class="group">
+<a href="/{lang}/events/{event.slug}" class="group">
 	<article
 		class="flex flex-col gap-4 overflow-hidden rounded-xl border border-slate-200 bg-white p-4 transition-all duration-200 hover:border-slate-300 hover:shadow-lg sm:flex-row sm:gap-6 sm:p-6"
 	>
-		{#if image}
+		{#if event.featuredImage}
 			<div
 				class="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg sm:aspect-square sm:w-48"
 			>
 				<img
-					src={image}
-					alt={title}
+					src={getMediaUrl(event.featuredImage, 'medium')}
+					alt={event.featuredImage.alternativeText || event.name}
 					class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 				/>
 			</div>
@@ -70,34 +86,38 @@
 
 		<div class="min-w-0 flex-1">
 			<div class="mb-2 flex flex-wrap items-center gap-2">
-				<span class="rounded-full px-3 py-1 text-xs font-medium {getTypeColor(eventType)}">
-					{getTypeLabel(eventType)}
+				<span class="rounded-full px-3 py-1 text-xs font-medium {getTypeColor(event.eventType)}">
+					{getTypeLabel(event.eventType)}
 				</span>
-				{#if featured}
+				{#if event.featured}
 					<span
 						class="border-budo-red-500 text-budo-red-500 rounded-full border px-3 py-1 text-xs font-medium"
 					>
-						Destacado
+						{lang === 'en' ? 'Featured' : 'Destacado'}
 					</span>
 				{/if}
 			</div>
 			<h3
 				class="text-midnight-900 group-hover:text-budo-red-500 mb-2 text-lg font-semibold transition-colors duration-200"
 			>
-				{title}
+				{event.name}
 			</h3>
-			<p class="mb-4 line-clamp-2 text-sm text-slate-600">
-				{description}
-			</p>
+			{#if event.location}
+				<p class="mb-4 line-clamp-2 text-sm text-slate-600">
+					{event.location}
+				</p>
+			{/if}
 			<div class="flex flex-wrap items-center gap-4 text-sm text-slate-500">
 				<div class="flex items-center gap-1.5">
 					<Calendar class="text-budo-red-500 h-4 w-4" />
-					<span>{date}</span>
+					<span>{formatDate(event.startDate)}</span>
 				</div>
-				<div class="flex items-center gap-1.5">
-					<MapPin class="text-budo-red-500 h-4 w-4" />
-					<span>{location}</span>
-				</div>
+				{#if event.location}
+					<div class="flex items-center gap-1.5">
+						<MapPin class="text-budo-red-500 h-4 w-4" />
+						<span>{event.location}</span>
+					</div>
+				{/if}
 			</div>
 		</div>
 

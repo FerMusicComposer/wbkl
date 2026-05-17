@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { MapPin, Mail, Phone, Facebook, Instagram, Youtube } from 'lucide-svelte';
 
-	const quickLinks = [
-		{ name: 'Inicio', href: '/' },
-		{ name: 'Sobre WBKL', href: '/about' },
-		{ name: 'Dojos', href: '/branches' },
-		{ name: 'Noticias', href: '/news' },
-		{ name: 'Programas', href: '/programs' },
-		{ name: 'Documentos', href: '/documents' }
-	];
+	interface Props {
+		lang?: string;
+	}
+
+	let { lang = 'es' }: Props = $props();
+
+	const quickLinks = $derived([
+		{ name: 'Inicio', href: `/${lang}` },
+		{ name: 'Sobre WBKL', href: `/${lang}/about` },
+		{ name: 'Dojos', href: `/${lang}/branches` },
+		{ name: 'Noticias', href: `/${lang}/news` },
+		{ name: 'Programas', href: `/${lang}/programs` },
+		{ name: 'Documentos', href: `/${lang}/documents` }
+	]);
 
 	const socialLinks = [
 		{ name: 'Facebook', icon: Facebook, href: 'https://facebook.com/wbkl' },
@@ -46,7 +52,7 @@
 							class="text-gray-400 transition-colors duration-200 hover:text-white"
 							aria-label={social.name}
 						>
-							<svelte:component this={social.icon} class="h-5 w-5" />
+							<social.icon class="h-5 w-5" />
 						</a>
 					{/each}
 				</div>

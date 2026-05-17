@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { Menu, X } from 'lucide-svelte';
 
-	const navLinks = [
-		{ name: 'Inicio', href: '/' },
-		{ name: 'Sobre WBKL', href: '/about' },
-		{ name: 'Dojos', href: '/branches' },
-		{ name: 'Noticias y Eventos', href: '/news' },
-		{ name: 'Programas', href: '/programs' },
-		{ name: 'Documentos', href: '/documents' }
-	];
+	interface Props {
+		lang?: string;
+	}
+
+	let { lang = 'es' }: Props = $props();
+
+	const navLinks = $derived([
+		{ name: 'Inicio', href: `/${lang}` },
+		{ name: 'Sobre WBKL', href: `/${lang}/about` },
+		{ name: 'Dojos', href: `/${lang}/branches` },
+		{ name: 'Noticias y Eventos', href: `/${lang}/news` },
+		{ name: 'Programas', href: `/${lang}/programs` },
+		{ name: 'Documentos', href: `/${lang}/documents` }
+	]);
 
 	let isMenuOpen = $state(false);
 
@@ -25,7 +31,7 @@
 	<nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-20 items-center justify-between">
 			<!-- Logo Section -->
-			<a href="/" class="flex shrink-0 items-center gap-3">
+			<a href={`/${lang}`} class="flex shrink-0 items-center gap-3">
 				<img src="/images/wbkl_logo_embedded.svg" alt="WBKL Logo" class="h-10 w-auto" />
 				<div class="hidden flex-col sm:flex">
 					<span class="text-midnight text-lg font-bold tracking-tight uppercase">WBKL</span>

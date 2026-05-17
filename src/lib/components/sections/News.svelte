@@ -1,8 +1,28 @@
 <script lang="ts">
 	import { Calendar } from 'lucide-svelte';
-	import { news } from '$lib/data/content';
+	import { getMediaUrl } from '$lib/api/media';
+	import type { NewsArticle } from '$lib/api/types';
+
+	interface Props {
+		articles: NewsArticle[];
+		lang?: string;
+	}
+
+	let { articles, lang = 'es' }: Props = $props();
 
 	function getCategoryLabel(category: string): string {
+		if (lang === 'en') {
+			switch (category) {
+				case 'news':
+					return 'News';
+				case 'event':
+					return 'Event';
+				case 'result':
+					return 'Result';
+				default:
+					return 'News';
+			}
+		}
 		switch (category) {
 			case 'news':
 				return 'Noticia';
@@ -27,34 +47,49 @@
 				return 'bg-budo-red-500 text-white';
 		}
 	}
+
+	function formatDate(dateStr: string): string {
+		try {
+			const date = new Date(dateStr);
+			return date.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', {
+				day: 'numeric',
+				month: 'long',
+				year: 'numeric'
+			});
+		} catch {
+			return dateStr;
+		}
+	}
 </script>
 
 <section class="bg-white py-16 sm:py-20">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<!-- Header -->
 		<div class="mb-12 flex items-center justify-between">
-			<h2 class="text-midnight-900 text-3xl font-bold">Noticias</h2>
+			<h2 class="text-midnight-900 text-3xl font-bold">
+				{lang === 'en' ? 'News' : 'Noticias'}
+			</h2>
 			<a
-				href="/news"
+				href="/{lang}/news"
 				class="text-budo-red-500 hover:text-budo-red-600 font-medium transition-colors duration-200"
 			>
-				Ver todas →
+				{lang === 'en' ? 'See all' : 'Ver todas'} →
 			</a>
 		</div>
 
 		<!-- News Grid -->
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-			{#each news as article (article.slug)}
+			{#each articles as article (article.documentId)}
 				<a
-					href="/news/{article.slug}"
+					href="/{lang}/news/{article.slug}"
 					class="group overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-200 hover:border-slate-300 hover:shadow-lg"
 				>
 					<!-- Image -->
 					<div class="relative aspect-video overflow-hidden">
-						{#if article.image}
+						{#if article.featuredImage}
 							<img
-								src={article.image}
-								alt={article.title}
+								src={getMediaUrl(article.featuredImage, 'medium') || article.featuredImage.url}
+								alt={article.featuredImage.alternativeText || article.title}
 								class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 							/>
 						{:else}
@@ -77,7 +112,7 @@
 						<!-- Date -->
 						<div class="mb-3 flex items-center gap-1.5 text-sm text-slate-500">
 							<Calendar class="h-4 w-4" />
-							<span>{article.date}</span>
+							<span>{formatDate(article.publishedAt)}</span>
 						</div>
 
 						<!-- Title -->
@@ -88,9 +123,11 @@
 						</h3>
 
 						<!-- Excerpt -->
-						<p class="line-clamp-3 text-sm text-slate-600">
-							{article.excerpt}
-						</p>
+						{#if article.excerpt}
+							<p class="line-clamp-3 text-sm text-slate-600">
+								{article.excerpt}
+							</p>
+						{/if}
 					</div>
 				</a>
 			{/each}
